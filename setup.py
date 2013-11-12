@@ -7,7 +7,11 @@
     :copyright: Copyright 2013, Nathan Hawkes
     :license: FreeBSD, see LICENCE file
 '''
-from distutils.core import setup, find_packages
+import ez_setup
+ez_setup.use_setuptools()
+
+from setuptools import setup, find_packages
+import localpost
 
 
 long_desc = '''
@@ -28,15 +32,28 @@ requires = ['tinkerer>=1.2.1',]
 
 test_requires = ['nose', 'tox']
 
+
 setup(
     name = 'Tinkerer-Localpost',
     version = localpost.__version__,
+    url = 'http://github.com/gisraptor/tinkerer-localpost',
     license = 'FreeBSD',
     author = 'Nathan Hawkes',
     author_email = 'gisraptor@gmail.com',
     description = 'Localhost your Tinkerer blog',
     long_description = long_desc,
     classifiers = [
+        'Development Status :: 3 - Alpha',
+        'Environment :: Console',
+        'Environment :: Web Environment',
+        'Intended Audience :: End Users/Desktop',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Communications',
+        'Topic :: Internet',
+        'Topic :: Utilities'
     ],
     platforms = 'any',
     packages = find_packages(exclude=['localposttest',]),
@@ -44,7 +61,7 @@ setup(
         'console_scripts': [
             'localpost = localpost.cmdline:main'
         ]
-    }
+    },
     install_requires = ['tinkerer>=1.2.1', ],
     test_requires = test_requires,
     test_suite = 'nose.collector'
