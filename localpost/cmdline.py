@@ -7,11 +7,11 @@
     :copyright: Copyright 2013, Nathan Hawkes
     :license: FreeBSD, see LICENCE file
 '''
+import os
+import sys
 import argparse
 from datetime import datetime
-import os
-from localpost import server
-
+from localpost import server, output
 
 
 def serve_blog(port):
@@ -26,7 +26,6 @@ def serve_blog(port):
     output.write.info("Shutting down the server based on user input.\nFinished.")
 
 
-
 def main(argv=None):
     '''
     Parses command line and executes required action.
@@ -36,10 +35,19 @@ def main(argv=None):
     group.add_argument("-S", "--serve", nargs='?', const=8000, default=8000,
             type=int, metavar='PORT', help="serve blog locally for review at "
             "http://localhost:PORT (default: %(default)i)")
-    group.add_argument("-v", "--version", action="store_true",
+    group.add_argument("--version", action="store_true",
             help="display version information")
+    group2 = parser.add_mutually_exclusive_group()
+    group2.add_argument("-q", "--quiet", action="store_true",
+            help="limit output from localpost")
+    group2.add_argument("-v", "--verbose", action="count",
+            help="make localpost more talkative (can be used multiple times)")
+    parser.add_argument("-o", "--output", metavar="LOGFILE", nargs="?", default=None,
+            help="specify a log file location for localpost output")
 
     command = parser.parse_args(argv)
+
+    output.init(command.quiet, command.verbose, command.output)
 
     if command.serve:
         serve_blog(command.serve)

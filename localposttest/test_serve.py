@@ -14,6 +14,7 @@ import time
 from multiprocessing import Process
 import tinkerer
 from localposttest import utils
+from localpost import server
 
 try:
     import urllib2 as request
@@ -35,26 +36,27 @@ class NullDevice(object):
 class TestServe(utils.BaseLocalpostTest):
     # setup the blog to serve
     def setUp(self):
-        super(TestServe, self).setUp()
+        utils.paths.set_paths(utils.TEST_ROOT)
+        utils.BaseLocalpostTest.setUp(self)
+        utils.BaseLocalpostTest.createContent(self)
 
         # silence the SimpleHTTPServer
         self.orig_stderr = sys.stderr
         sys.stderr = NullDevice()
 
         # spin up the server for testing
-        self.p = Process(target=utils.server.serve, args=(8000, ))
+        self.p = Process(target=server.serve, args=(8000, ))
         self.p.daemon = True
         self.p.start()
 
         # setup URLs
-        self.baseUrl = 'http://localhost:8000/'
-        self.htmlUrl = self.baseUrl + utils.paths.html.replace(utils.paths.root,'') + '/'
+        self.baseUrl = 'http://localhost:8000'
+        self.htmlUrl = self.baseUrl + utils.paths.html.replace(utils.paths.root,'') + '/' 
 
     def tearDown(self):
         # clean up server
         self.p.terminate()
-
-        super(TestServe, self).tearDown()
+        utils.BaseLocalpostTest.tearDown(self)
 
         # restore voice
         sys.stderr = self.orig_stderr

@@ -7,4 +7,3 @@
     :copyright: Copyright 2013, Nathan Hawkes
     :license: FreeBSD, see LICENSE file
 '''
-
