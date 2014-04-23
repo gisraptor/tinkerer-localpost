@@ -1,4 +1,5 @@
 language: python
+# versions of python to test
 python:
   - "2.6"
   - "2.7"
