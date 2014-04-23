@@ -7,7 +7,6 @@
     :copyright: Copyright 2013, Nathan Hawkes
     :license: FreeBSD, see LICENCE file
 '''
-
 from setuptools import setup, find_packages
 import localpost
 
@@ -31,11 +30,13 @@ requires = ['tinkerer>=1.2.1',]
 test_requires = ['nose', 'tox', 'tinkerer>=1.2.1']
 
 
+# Add this into setup once things just before deploying to pypi
+#download_url = 'https://pypi.python.org/pypi/Tinkerer-Localpost',
+
 setup(
     name = 'Tinkerer-Localpost',
     version = localpost.__version__,
     url = 'http://github.com/gisraptor/tinkerer-localpost',
-    download_url = 'https://pypi.python.org/pypi/Tinkerer-Localpost',
     license = 'FreeBSD',
     author = 'Nathan Hawkes',
     author_email = 'gisraptor@gmail.com',
